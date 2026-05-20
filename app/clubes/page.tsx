@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { fetchFootball, LIGA_CR_ID, SEASON } from '../lib/api-football'
+import { fetchFootball, LIGA_CR_ID, SEASON } from '@/app/lib/api-football'
 import Image from 'next/image'
 import Link from 'next/link'
 
