@@ -8,7 +8,7 @@ export default function Navbar() {
           ⚽ Golazo CR
         </Link>
         <div className="flex items-center gap-6">
-          <Link href="/" className="text-gray-400 hover:text-white transition-colors text-sm">
+          <Link href="/tabla" className="text-gray-400 hover:text-white transition-colors text-sm">
             Tabla
           </Link>
           <Link href="/calendario" className="text-gray-400 hover:text-white transition-colors text-sm">
@@ -16,6 +16,9 @@ export default function Navbar() {
           </Link>
           <Link href="/clubes" className="text-gray-400 hover:text-white transition-colors text-sm">
             Clubes
+          </Link>
+          <Link href="/goleadores" className="text-gray-400 hover:text-white transition-colors text-sm">
+            Goleadores
           </Link>
         </div>
       </div>
