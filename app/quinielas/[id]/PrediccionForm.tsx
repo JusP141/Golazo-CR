@@ -82,9 +82,7 @@ export default function PrediccionForm({ partido, quinielaId, prediccionExistent
           onClick={handleGuardar}
           disabled={loading}
           className={`px-4 py-1 rounded-lg text-sm font-medium transition-colors ${
-            guardado
-              ? 'bg-green-500 text-black'
-              : 'bg-gray-700 hover:bg-gray-600 text-white'
+            guardado ? 'bg-green-500 text-black' : 'bg-gray-700 hover:bg-gray-600 text-white'
           }`}
         >
           {guardado ? '✓ Guardado' : loading ? '...' : 'Guardar'}
