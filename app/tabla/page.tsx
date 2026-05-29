@@ -12,14 +12,14 @@ export default async function Tabla() {
   const tabla = data.response[0]?.league?.standings[0] ?? []
 
   return (
-    <main className="min-h-screen bg-gray-950 p-8 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-bold text-green-500 mb-2">Tabla de posiciones</h1>
-      <p className="text-gray-400 mb-6">Primera División de Costa Rica — 2024</p>
+    <main className="min-h-screen p-8 max-w-5xl mx-auto" style={{ backgroundColor: 'var(--background)' }}>
+      <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>Tabla de posiciones</h1>
+      <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>Primera División de Costa Rica — 2024</p>
 
-      <div className="overflow-x-auto rounded-xl border border-gray-800">
-        <table className="w-full text-sm text-gray-300">
-          <thead className="bg-gray-900 text-gray-400 uppercase text-xs">
-            <tr>
+      <div className="overflow-x-auto rounded-xl shadow-sm" style={{ border: '1px solid var(--border)' }}>
+        <table className="w-full text-sm">
+          <thead>
+            <tr style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
               <th className="px-4 py-3 text-left">#</th>
               <th className="px-4 py-3 text-left">Equipo</th>
               <th className="px-4 py-3 text-center">PJ</th>
@@ -30,69 +30,72 @@ export default async function Tabla() {
               <th className="px-4 py-3 text-center">GC</th>
               <th className="px-4 py-3 text-center">DG</th>
               <th className="px-4 py-3 text-center">Forma</th>
-              <th className="px-4 py-3 text-center font-bold text-white">PTS</th>
+              <th className="px-4 py-3 text-center font-bold">PTS</th>
             </tr>
           </thead>
           <tbody>
             {tabla.map((equipo: any, index: number) => (
               <tr
                 key={equipo.team.id}
-                className={`border-t border-gray-800 hover:bg-gray-900 transition-colors ${
-                  index < 4 ? 'border-l-2 border-l-green-500' : ''
-                }`}
+                className="transition-colors hover:opacity-90"
+                style={{
+                  backgroundColor: index % 2 === 0 ? 'var(--background-card)' : 'var(--background)',
+                  borderLeft: index < 4 ? '4px solid var(--primary)' : '4px solid transparent',
+                  borderBottom: '1px solid var(--border)'
+                }}
               >
-                <td className="px-4 py-3 text-gray-400">{equipo.rank}</td>
+                <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>{equipo.rank}</td>
                 <td className="px-4 py-3">
-                  <Link href={`/clubes/${equipo.team.id}`} className="flex items-center gap-3 hover:text-green-400 transition-colors">
+                  <Link href={`/clubes/${equipo.team.id}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                     <Image src={equipo.team.logo} alt={equipo.team.name} width={24} height={24} />
-                    <span className="font-medium text-white">{equipo.team.name}</span>
+                    <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{equipo.team.name}</span>
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-center">{equipo.all.played}</td>
-                <td className="px-4 py-3 text-center">{equipo.all.win}</td>
-                <td className="px-4 py-3 text-center">{equipo.all.draw}</td>
-                <td className="px-4 py-3 text-center">{equipo.all.lose}</td>
-                <td className="px-4 py-3 text-center">{equipo.all.goals.for}</td>
-                <td className="px-4 py-3 text-center">{equipo.all.goals.against}</td>
-                <td className="px-4 py-3 text-center">{equipo.goalsDiff}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.played}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.win}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.draw}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.lose}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.goals.for}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.all.goals.against}</td>
+                <td className="px-4 py-3 text-center" style={{ color: 'var(--text-primary)' }}>{equipo.goalsDiff}</td>
                 <td className="px-4 py-3 text-center">
                   <div className="flex gap-1 justify-center">
                     {equipo.form?.split('').slice(-5).map((resultado: string, i: number) => (
                       <span
                         key={i}
-                        className={`w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold ${
-                          resultado === 'W' ? 'bg-green-500 text-white' :
-                          resultado === 'D' ? 'bg-yellow-500 text-black' :
-                          'bg-red-500 text-white'
-                        }`}
+                        className="w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold text-white"
+                        style={{
+                          backgroundColor: resultado === 'W' ? 'var(--primary)' :
+                            resultado === 'D' ? 'var(--accent-2)' : 'var(--accent)'
+                        }}
                       >
                         {resultado === 'W' ? 'G' : resultado === 'D' ? 'E' : 'P'}
                       </span>
                     ))}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-center font-bold text-green-400">{equipo.points}</td>
+                <td className="px-4 py-3 text-center font-bold" style={{ color: 'var(--primary)' }}>{equipo.points}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-center gap-4 mt-4 text-xs text-gray-500">
+      <div className="flex items-center gap-6 mt-4 text-xs" style={{ color: 'var(--text-secondary)' }}>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--primary)' }}></div>
           <span>Clasificado a playoffs</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xs">G</span>
+          <span className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs text-white" style={{ backgroundColor: 'var(--primary)' }}>G</span>
           <span>Victoria</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-yellow-500 text-black flex items-center justify-center font-bold text-xs">E</span>
+          <span className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs" style={{ backgroundColor: 'var(--accent-2)', color: 'var(--text-primary)' }}>E</span>
           <span>Empate</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-xs">P</span>
+          <span className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs text-white" style={{ backgroundColor: 'var(--accent)' }}>P</span>
           <span>Derrota</span>
         </div>
       </div>
