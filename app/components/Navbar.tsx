@@ -70,6 +70,9 @@ export default function Navbar() {
           <Link href="/goleadores" className="text-gray-400 hover:text-white transition-colors text-sm">
             Goleadores
           </Link>
+          <Link href="/quinielas" className="text-gray-400 hover:text-white transition-colors text-sm">
+  Quinielas
+</Link>
           {perfil?.rol === 'admin' && (
             <Link href="/admin" className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium">
               ⚙️ Admin
