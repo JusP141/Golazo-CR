@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [usuario, setUsuario] = useState<any>(null)
+  const [perfil, setPerfil] = useState<any>(null)
   const supabase = createClient()
   const router = useRouter()
 
@@ -16,13 +17,31 @@ export default function Navbar() {
     const getUsuario = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUsuario(user)
+
+      if (user) {
+        const { data } = await supabase
+          .from('perfiles')
+          .select('*')
+          .eq('id', user.id)
+          .single()
+        setPerfil(data)
+      }
     }
     getUsuario()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUsuario(session?.user ?? null)
-    })
-
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+  setUsuario(session?.user ?? null)
+  if (session?.user) {
+    const { data } = await supabase
+      .from('perfiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single()
+    setPerfil(data)
+  } else {
+    setPerfil(null)
+  }
+})
     return () => subscription.unsubscribe()
   }, [])
 
@@ -51,6 +70,14 @@ export default function Navbar() {
           <Link href="/goleadores" className="text-gray-400 hover:text-white transition-colors text-sm">
             Goleadores
           </Link>
+          <Link href="/quinielas" className="text-gray-400 hover:text-white transition-colors text-sm">
+  Quinielas
+</Link>
+          {perfil?.rol === 'admin' && (
+            <Link href="/admin" className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium">
+              ⚙️ Admin
+            </Link>
+          )}
           {usuario ? (
             <div className="flex items-center gap-4">
               <span className="text-gray-400 text-sm">{usuario.email}</span>
