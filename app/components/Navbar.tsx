@@ -17,7 +17,6 @@ export default function Navbar() {
     const getUsuario = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUsuario(user)
-
       if (user) {
         const { data } = await supabase
           .from('perfiles')
@@ -30,18 +29,19 @@ export default function Navbar() {
     getUsuario()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-  setUsuario(session?.user ?? null)
-  if (session?.user) {
-    const { data } = await supabase
-      .from('perfiles')
-      .select('*')
-      .eq('id', session.user.id)
-      .single()
-    setPerfil(data)
-  } else {
-    setPerfil(null)
-  }
-})
+      setUsuario(session?.user ?? null)
+      if (session?.user) {
+        const { data } = await supabase
+          .from('perfiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
+        setPerfil(data)
+      } else {
+        setPerfil(null)
+      }
+    })
+
     return () => subscription.unsubscribe()
   }, [])
 
@@ -52,48 +52,48 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 px-8 py-4">
+    <nav style={{ backgroundColor: 'var(--navbar)' }} className="px-8 py-4 shadow-lg">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="/" className="text-green-500 font-bold text-xl">
-          ⚽ Golazo CR
+        <Link href="/" className="font-bold text-xl flex items-center gap-2" style={{ color: 'var(--primary-light)' }}>
+           Golazo CR
         </Link>
         <div className="flex items-center gap-6">
-          <Link href="/tabla" className="text-gray-400 hover:text-white transition-colors text-sm">
-            Tabla
-          </Link>
-          <Link href="/calendario" className="text-gray-400 hover:text-white transition-colors text-sm">
-            Calendario
-          </Link>
-          <Link href="/clubes" className="text-gray-400 hover:text-white transition-colors text-sm">
-            Clubes
-          </Link>
-          <Link href="/goleadores" className="text-gray-400 hover:text-white transition-colors text-sm">
-            Goleadores
-          </Link>
-          <Link href="/quinielas" className="text-gray-400 hover:text-white transition-colors text-sm">
-  Quinielas
-</Link>
+          {['Tabla', 'Calendario', 'Clubes', 'Goleadores', 'Quinielas'].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="text-sm transition-colors hover:opacity-80"
+              style={{ color: '#D4C5A9' }}
+            >
+              {item}
+            </Link>
+          ))}
           {perfil?.rol === 'admin' && (
-            <Link href="/admin" className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium">
+            <Link href="/admin" className="text-sm font-medium transition-colors" style={{ color: 'var(--accent-2)' }}>
               ⚙️ Admin
             </Link>
           )}
           {usuario ? (
             <div className="flex items-center gap-4">
-              <span className="text-gray-400 text-sm">{usuario.email}</span>
+              <span className="text-sm" style={{ color: '#D4C5A9' }}>{usuario.email}</span>
               <button
                 onClick={handleLogout}
-                className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
+                className="text-sm px-4 py-2 rounded-lg transition-colors"
+                style={{ backgroundColor: 'var(--accent)', color: 'white' }}
               >
                 Cerrar sesión
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link href="/auth/login" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <Link href="/auth/login" className="text-sm transition-colors" style={{ color: '#D4C5A9' }}>
                 Iniciar sesión
               </Link>
-              <Link href="/auth/registro" className="bg-green-500 hover:bg-green-400 text-black font-bold text-sm px-4 py-2 rounded-lg transition-colors">
+              <Link
+                href="/auth/registro"
+                className="text-sm font-bold px-4 py-2 rounded-lg transition-colors"
+                style={{ backgroundColor: 'var(--primary-light)', color: 'var(--text-primary)' }}
+              >
                 Registrarse
               </Link>
             </div>
