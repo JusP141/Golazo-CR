@@ -27,23 +27,28 @@ export default async function AdminJugadores() {
   const equipos = data.response[0]?.league?.standings[0] ?? []
 
   return (
-    <main className="min-h-screen bg-gray-950 p-8 max-w-5xl mx-auto">
-      <div className="flex items-center gap-4 mb-6">
-        <Link href="/admin" className="text-gray-400 hover:text-white text-sm">← Volver</Link>
-        <h1 className="text-3xl font-bold text-white">Gestión de jugadores</h1>
-      </div>
+    <main className="min-h-screen p-8" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center gap-4 mb-6">
+          <Link href="/admin" className="text-sm hover:opacity-80" style={{ color: 'var(--text-secondary)' }}>← Volver</Link>
+          <h1 className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>Gestión de jugadores</h1>
+        </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {equipos.map((equipo: any) => (
-          <Link
-            key={equipo.team.id}
-            href={`/admin/jugadores/${equipo.team.id}`}
-            className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex flex-col items-center gap-3 hover:border-green-500 transition-colors"
-          >
-            <Image src={equipo.team.logo} alt={equipo.team.name} width={48} height={48} />
-            <span className="text-white text-sm font-medium text-center">{equipo.team.name}</span>
-          </Link>
-        ))}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {equipos.map((equipo: any) => (
+            <Link
+              key={equipo.team.id}
+              href={`/admin/jugadores/${equipo.team.id}`}
+              className="rounded-xl p-4 flex flex-col items-center gap-3 transition-all hover:shadow-md hover:-translate-y-1"
+              style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}
+            >
+              <Image src={equipo.team.logo} alt={equipo.team.name} width={48} height={48} />
+              <span className="text-sm font-medium text-center" style={{ color: 'var(--text-primary)' }}>
+                {equipo.team.name}
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </main>
   )

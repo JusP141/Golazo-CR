@@ -37,19 +37,22 @@ export default async function QuinielaDetalle({ params }: { params: Promise<{ id
   const totalPuntos = predicciones?.reduce((acc: number, p: any) => acc + (p.puntos || 0), 0) ?? 0
 
   return (
-    <main className="min-h-screen bg-gray-950 p-8 max-w-4xl mx-auto">
+    <main className="min-h-screen p-8 max-w-4xl mx-auto" style={{ backgroundColor: 'var(--background)' }}>
       <div className="flex items-center gap-4 mb-2">
-        <Link href="/quinielas" className="text-gray-400 hover:text-white text-sm">← Volver</Link>
+        <Link href="/quinielas" className="text-sm hover:opacity-80" style={{ color: 'var(--text-secondary)' }}>
+          ← Volver
+        </Link>
       </div>
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-white">{quiniela.nombre}</h1>
-          <p className="text-gray-400 mt-1">{quiniela.torneo}</p>
+          <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>{quiniela.nombre}</h1>
+          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>{quiniela.torneo}</p>
         </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-3 text-center">
-          <p className="text-green-400 font-bold text-2xl">{totalPuntos}</p>
-          <p className="text-gray-400 text-xs">puntos totales</p>
+        <div className="rounded-xl px-6 py-3 text-center shadow-sm"
+          style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
+          <p className="font-bold text-2xl" style={{ color: 'var(--primary)' }}>{totalPuntos}</p>
+          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>puntos totales</p>
         </div>
       </div>
 
@@ -59,27 +62,38 @@ export default async function QuinielaDetalle({ params }: { params: Promise<{ id
           const finalizado = partido.fixture.status.short === 'FT'
 
           return (
-            <div key={partido.fixture.id} className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div key={partido.fixture.id} className="rounded-xl p-6 shadow-sm"
+              style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3 flex-1 justify-end">
-                  <span className="text-white font-medium text-sm text-right">{partido.teams.home.name}</span>
+                  <span className="font-medium text-sm text-right" style={{
+                    color: partido.teams.home.winner ? 'var(--primary)' : 'var(--text-primary)'
+                  }}>
+                    {partido.teams.home.name}
+                  </span>
                   <Image src={partido.teams.home.logo} alt={partido.teams.home.name} width={28} height={28} />
                 </div>
                 <div className="flex flex-col items-center mx-4">
                   {finalizado ? (
-                    <span className="text-white font-bold text-lg">
+                    <span className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
                       {partido.goals.home} - {partido.goals.away}
                     </span>
                   ) : (
-                    <span className="text-gray-400 text-sm">VS</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>VS</span>
                   )}
-                  <span className="text-gray-500 text-xs mt-1">
-                    {finalizado ? 'Final' : new Date(partido.fixture.date).toLocaleDateString('es-CR', { day: '2-digit', month: 'short' })}
+                  <span className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                    {finalizado ? 'Final' : new Date(partido.fixture.date).toLocaleDateString('es-CR', {
+                      day: '2-digit', month: 'short'
+                    })}
                   </span>
                 </div>
                 <div className="flex items-center gap-3 flex-1 justify-start">
                   <Image src={partido.teams.away.logo} alt={partido.teams.away.name} width={28} height={28} />
-                  <span className="text-white font-medium text-sm">{partido.teams.away.name}</span>
+                  <span className="font-medium text-sm" style={{
+                    color: partido.teams.away.winner ? 'var(--primary)' : 'var(--text-primary)'
+                  }}>
+                    {partido.teams.away.name}
+                  </span>
                 </div>
               </div>
 
@@ -91,12 +105,15 @@ export default async function QuinielaDetalle({ params }: { params: Promise<{ id
               />
 
               {prediccion && finalizado && (
-                <div className="mt-3 pt-3 border-t border-gray-800 flex justify-end">
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-                    prediccion.puntos === 3 ? 'bg-green-500 text-black' :
-                    prediccion.puntos === 1 ? 'bg-yellow-500 text-black' :
-                    'bg-gray-700 text-gray-300'
-                  }`}>
+                <div className="mt-3 pt-3 flex justify-end"
+                  style={{ borderTop: '1px solid var(--border)' }}>
+                  <span className="px-3 py-1 rounded-full text-sm font-bold"
+                    style={{
+                      backgroundColor: prediccion.puntos === 3 ? 'var(--primary)' :
+                        prediccion.puntos === 1 ? 'var(--accent-2)' : 'var(--border)',
+                      color: prediccion.puntos === 3 ? 'white' :
+                        prediccion.puntos === 1 ? 'var(--text-primary)' : 'var(--text-secondary)'
+                    }}>
                     {prediccion.puntos === 3 ? '✓ 3 pts — Exacto' :
                      prediccion.puntos === 1 ? '~ 1 pt — Resultado correcto' :
                      '✗ 0 pts'}

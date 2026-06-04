@@ -16,28 +16,33 @@ export default async function JugadorDetalle({ params }: { params: Promise<{ id:
 
   if (!jugador) {
     return (
-      <main className="min-h-screen bg-gray-950 p-8">
-        <p className="text-gray-400">Jugador no encontrado.</p>
+      <main className="min-h-screen p-8" style={{ backgroundColor: 'var(--background)' }}>
+        <p style={{ color: 'var(--text-secondary)' }}>Jugador no encontrado.</p>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-gray-950 p-8 max-w-4xl mx-auto">
+    <main className="min-h-screen p-8 max-w-4xl mx-auto" style={{ backgroundColor: 'var(--background)' }}>
+
       {/* Header */}
-      <div className="flex items-center gap-6 mb-8">
+      <div className="flex items-center gap-6 mb-8 p-6 rounded-xl shadow-sm"
+        style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
         <Image
           src={jugador.photo}
           alt={jugador.name}
           width={100}
           height={100}
-          className="rounded-full border-2 border-gray-700"
+          className="rounded-full"
+          style={{ border: '3px solid var(--primary-light)' }}
         />
         <div>
-          <h1 className="text-3xl font-bold text-white">{jugador.name}</h1>
-          <p className="text-gray-400 mt-1">{jugador.nationality} · {jugador.age} años</p>
+          <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>{jugador.name}</h1>
+          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>
+            {jugador.nationality} · {jugador.age} años
+          </p>
           {stats && (
-            <p className="text-green-400 text-sm mt-1">
+            <p className="text-sm mt-1 font-medium" style={{ color: 'var(--primary)' }}>
               {stats.team.name} — {stats.games.position}
             </p>
           )}
@@ -46,61 +51,41 @@ export default async function JugadorDetalle({ params }: { params: Promise<{ id:
 
       {/* Info personal */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs mb-1">Altura</p>
-          <p className="text-white font-bold">{jugador.height ?? 'N/D'}</p>
-        </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs mb-1">Peso</p>
-          <p className="text-white font-bold">{jugador.weight ?? 'N/D'}</p>
-        </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs mb-1">Edad</p>
-          <p className="text-white font-bold">{jugador.age} años</p>
-        </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs mb-1">Nacionalidad</p>
-          <p className="text-white font-bold">{jugador.nationality}</p>
-        </div>
+        {[
+          { label: 'Altura', value: jugador.height ?? 'N/D' },
+          { label: 'Peso', value: jugador.weight ?? 'N/D' },
+          { label: 'Edad', value: `${jugador.age} años` },
+          { label: 'Nacionalidad', value: jugador.nationality },
+        ].map((info) => (
+          <div key={info.label} className="rounded-xl p-4 text-center shadow-sm"
+            style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
+            <p className="text-xs mb-1" style={{ color: 'var(--text-secondary)' }}>{info.label}</p>
+            <p className="font-bold" style={{ color: 'var(--text-primary)' }}>{info.value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Estadísticas */}
       {stats && (
         <>
-          <h2 className="text-xl font-bold text-white mb-4">Estadísticas 2024</h2>
+          <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Estadísticas 2024</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Partidos</p>
-              <p className="text-white font-bold text-2xl">{stats.games.appearences ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Goles</p>
-              <p className="text-green-400 font-bold text-2xl">{stats.goals.total ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Asistencias</p>
-              <p className="text-blue-400 font-bold text-2xl">{stats.goals.assists ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Minutos</p>
-              <p className="text-white font-bold text-2xl">{stats.games.minutes ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Tarjetas amarillas</p>
-              <p className="text-yellow-400 font-bold text-2xl">{stats.cards.yellow ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Tarjetas rojas</p>
-              <p className="text-red-400 font-bold text-2xl">{stats.cards.red ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Tiros al arco</p>
-              <p className="text-white font-bold text-2xl">{stats.shots?.on ?? 0}</p>
-            </div>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-              <p className="text-gray-400 text-xs mb-1">Duelos ganados</p>
-              <p className="text-white font-bold text-2xl">{stats.duels?.won ?? 0}</p>
-            </div>
+            {[
+              { label: 'Partidos', value: stats.games.appearences ?? 0, color: 'var(--text-primary)' },
+              { label: 'Goles', value: stats.goals.total ?? 0, color: 'var(--primary)' },
+              { label: 'Asistencias', value: stats.goals.assists ?? 0, color: 'var(--primary-light)' },
+              { label: 'Minutos', value: stats.games.minutes ?? 0, color: 'var(--text-primary)' },
+              { label: 'Tarjetas amarillas', value: stats.cards.yellow ?? 0, color: '#E9C46A' },
+              { label: 'Tarjetas rojas', value: stats.cards.red ?? 0, color: 'var(--accent)' },
+              { label: 'Tiros al arco', value: stats.shots?.on ?? 0, color: 'var(--text-primary)' },
+              { label: 'Duelos ganados', value: stats.duels?.won ?? 0, color: 'var(--text-primary)' },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-xl p-4 text-center shadow-sm"
+                style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
+                <p className="text-xs mb-1" style={{ color: 'var(--text-secondary)' }}>{stat.label}</p>
+                <p className="font-bold text-2xl" style={{ color: stat.color }}>{stat.value}</p>
+              </div>
+            ))}
           </div>
         </>
       )}

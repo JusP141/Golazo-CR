@@ -48,38 +48,52 @@ export default function NuevaQuiniela() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 w-full max-w-md">
+    <main className="min-h-screen flex items-center justify-center p-8" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="rounded-xl p-8 w-full max-w-md shadow-sm"
+        style={{ backgroundColor: 'var(--background-card)', border: '1px solid var(--border)' }}>
+
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white">Nueva quiniela</h1>
-          <p className="text-gray-400 mt-1">Predecí los resultados del Apertura 2024</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>Nueva quiniela</h1>
+          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Predecí los resultados del Apertura 2024</p>
         </div>
 
         <div className="flex flex-col gap-4">
           <div>
-            <label className="text-gray-400 text-sm mb-1 block">Nombre de tu quiniela</label>
+            <label className="text-sm mb-1 block" style={{ color: 'var(--text-secondary)' }}>
+              Nombre de tu quiniela
+            </label>
             <input
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               placeholder="Ej: Mi quiniela del Apertura"
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 transition-colors"
+              className="w-full rounded-lg px-4 py-3 outline-none transition-colors"
+              style={{
+                backgroundColor: 'var(--background)',
+                border: '1px solid var(--border)',
+                color: 'var(--text-primary)'
+              }}
             />
           </div>
 
           {error && (
-            <p className="text-red-400 text-sm">{error}</p>
+            <p className="text-sm" style={{ color: 'var(--accent)' }}>{error}</p>
           )}
 
           <button
             onClick={handleCrear}
             disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-lg transition-colors disabled:opacity-50"
+            className="w-full font-bold py-3 rounded-lg transition-colors disabled:opacity-50"
+            style={{ backgroundColor: 'var(--primary)', color: 'white' }}
           >
             {loading ? 'Creando...' : 'Crear quiniela'}
           </button>
 
-          <Link href="/quinielas" className="text-gray-400 text-sm text-center hover:text-white transition-colors">
+          <Link
+            href="/quinielas"
+            className="text-sm text-center hover:underline"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             Cancelar
           </Link>
         </div>
